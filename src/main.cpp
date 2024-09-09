@@ -73,7 +73,20 @@ int evaluate_command(std::string& command)
     else if(command_vector[0].compare("cd")==0)
     {
       if(command_vector.size()==1) return -1;   // Skipping for now
-      if(std::filesystem::exists(command_vector[1]))
+      else if(command_vector[1][0] == '~')
+      {
+        std::string home = std::getenv("HOME");
+        std::string path = home + command_vector[1].substr(1);
+        if(std::filesystem::exists(path))
+        {
+          std::filesystem::current_path(path);
+        }
+        else 
+        {
+          std::cout<<"cd: "<<command_vector[1]<<": No such file or directory"<<std::endl;
+        }
+      }
+      else if(std::filesystem::exists(command_vector[1]))
       {
         std::filesystem::current_path(command_vector[1]);
       }
