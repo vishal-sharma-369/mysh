@@ -70,6 +70,19 @@ int evaluate_command(std::string& command)
       std::cout<<std::filesystem::current_path()<<std::endl;
       return -1;
     }
+    else if(command_vector[0].compare("cd")==0)
+    {
+      if(command_vector.size()==1) return -1;   // Skipping for now
+      if(std::filesystem::exists(command_vector[1]))
+      {
+        std::filesystem::current_path(command_vector[1]);
+      }
+      else 
+      {
+        std::cout<<"cd: "<<command_vector[1]<<": No such file or directory"<<std::endl;
+      }
+      return -1;
+    }
     return -1;  // Continue to next loop if the built in command is specified in builtin vector but is yet not implemented
   }
   else if(fct.type == CommandType::Executable)
@@ -144,7 +157,7 @@ std::string find_command_executable_path(std::string command)
 
 FullCommandType command_to_full_command_type(std::string command)
 {
-  std::vector<std::string> builtin_commands = {"exit","echo","type","pwd"};
+  std::vector<std::string> builtin_commands = {"exit","echo","type","pwd","cd"};
 
   // handle builtin commands
   if(std::find(builtin_commands.begin(), builtin_commands.end(), command) != builtin_commands.end())
