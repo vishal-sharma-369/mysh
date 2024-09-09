@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-// #include <cstdlib>
 #include <algorithm>
 #include <filesystem>
 
@@ -140,9 +139,12 @@ int main() {
 std::vector<std::string> parse_command_to_string_vector(const std::string &message, const std::string& delim) {
   std::vector<std::string> toks;
   std::stringstream ss = std::stringstream{message};
-  std::string line;
-  while (getline(ss, line, *delim.begin())) {
-    toks.push_back(line);
+  std::string token;
+  while (getline(ss, token, *delim.begin())) {
+    if(!token.empty())
+    {
+      toks.push_back(token);
+    }
     ss.ignore(delim.length() - 1);
   }
   return toks;
