@@ -65,6 +65,11 @@ int evaluate_command(std::string& command)
       }
       return -1;  // Continue to the next loop
     }
+    else if(command_vector[0].compare("pwd")==0)
+    {
+      std::cout<<std::filesystem::current_path()<<std::endl;
+      return -1;
+    }
     return -1;  // Continue to next loop if the built in command is specified in builtin vector but is yet not implemented
   }
   else if(fct.type == CommandType::Executable)
@@ -139,7 +144,7 @@ std::string find_command_executable_path(std::string command)
 
 FullCommandType command_to_full_command_type(std::string command)
 {
-  std::vector<std::string> builtin_commands = {"exit","echo","type"};
+  std::vector<std::string> builtin_commands = {"exit","echo","type","pwd"};
 
   // handle builtin commands
   if(std::find(builtin_commands.begin(), builtin_commands.end(), command) != builtin_commands.end())
